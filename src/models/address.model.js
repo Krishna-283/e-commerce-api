@@ -5,21 +5,24 @@ export const addressSchema = new Schema({
         type: String,
         required: true,
         trim: true,
+        lowercase: true,
     },
 
     city: {
         type: String,
         required: true,
         trim: true,
+        lowercase: true,
     },
 
     state: {
         type: String,
         required: true,
         trim: true,
+        lowercase: true,
     },
 
-    postal_code: {
+    postalCode: {
         type: Number,
         required: true,
         trim: true,
@@ -29,11 +32,13 @@ export const addressSchema = new Schema({
         type: String,
         required: true,
         trim: true,
+        lowercase: true,
     },
 
     landmark: {
         type: String,
-        trim: true
+        trim: true,
+        lowercase: true,
     }
 
 });

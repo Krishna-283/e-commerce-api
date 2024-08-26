@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import addressSchema from './address.model.js';
+import { addressSchema } from './address.model.js';
 
 const orderSchema = new Schema({
     userId: {
@@ -32,4 +32,4 @@ const orderSchema = new Schema({
 
 }, { timestamps: true });
 
-export const Order = mongoose.models("Order", orderSchema);
+export const Order = mongoose.model("Order", orderSchema);

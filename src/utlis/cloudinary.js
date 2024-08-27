@@ -3,8 +3,8 @@ import fs from 'fs';
 import dotenv from 'dotenv';
 
 dotenv.config({
-    path: './.env'
-})
+    path: './.env',
+});
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -26,5 +26,16 @@ export const uploadOnCloudinary = async localFilePath => {
         console.error(error);
         fs.unlinkSync(localFilePath);
         return null;
+    }
+};
+
+export const deleteOnCloudinary = async imageUrl => {
+    try {
+        const result = await cloudinary.uploader.destroy(imageUrl);
+        console.log(result);
+        return result === 'true';
+    } catch (error) {
+        console.error(error);
+        return false;
     }
 };

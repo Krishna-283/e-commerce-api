@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import { addressSchema } from './address.model.js';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 const userSchema = new Schema(
     {
@@ -28,12 +29,19 @@ const userSchema = new Schema(
             trim: true,
         },
 
+        role: {
+            type: String,
+            enum: ['customer', 'admin'],
+            default: 'customer',
+            trim: true,
+        },
+
         phoneNumber: {
             type: String,
             required: [true, 'Phone number is required'],
             unique: true,
             trim: true,
-            minLength: 10,
+            minLength: 7,
             maxLength: 15,
         },
 
@@ -66,6 +74,33 @@ userSchema.pre('save', async function (next) {
 
 userSchema.methods.isPasswordCorrect = async function (password) {
     return await bcrypt.compare(password, this.password);
+};
+
+userSchema.methods.generateAccessToken = function () {
+    return jwt.sign(
+        {
+            _id: this._id,
+            email: this.email,
+            username: this.username,
+            name: this.name,
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+        }
+    );
+};
+
+userSchema.methods.generateRefreshToken = function () {
+    return jwt.sign(
+        {
+            _id: this._id,
+        },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+            expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
+        }
+    );
 };
 
 export const User = mongoose.model('User', userSchema);

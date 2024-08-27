@@ -6,7 +6,7 @@ export const connectDB = async () => {
         // await new Promise((resolve, reject) => {
         //     setTimeout(() => {
         //         resolve()
-        //     }, 1000)
+        //     }, 500)
         // })
         console.log('MongoDB connected')
     } catch (error) {

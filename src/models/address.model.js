@@ -41,4 +41,4 @@ export const addressSchema = new Schema({
         lowercase: true,
     }
 
-});
+}, {_id: false});
